@@ -4,9 +4,45 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </nav>
-    <router-view/>
+    <Dialog
+      :show="isShow"
+      cancelText="取消"
+      confirmText="确认"
+      :title="'标题'"
+      :showCancel="true"
+      @cancel="cancel"
+      @confirm="confirm"
+    >
+     fdfsfsfdsf
+    </Dialog>
+    <button @click="isShow = true" title="标题">show dialog</button>
+    <router-view />
   </div>
 </template>
+
+<script>
+import Dialog from './components/Dialog.vue'
+export default {
+  name: 'app',
+  components: {
+    Dialog
+  },
+  data () {
+    return {
+      isShow: false
+    }
+  },
+  methods: {
+    cancel (show) {
+      console.log(show)
+      this.isShow = show
+    },
+    confirm (show) {
+      this.isShow = show
+    }
+  }
+}
+</script>
 
 <style>
 #app {
