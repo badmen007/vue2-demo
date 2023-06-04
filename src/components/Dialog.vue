@@ -1,10 +1,11 @@
 <template>
   <div class="dialog" v-if="showSelf" :style="{'z-index': zIndex}">
-    <div class="dialog-mark" @click.self="closeMyself" :style="{'z-index': zIndex+1}"></div>
+    <div class="dialog-mark" @click.self="cancel" :style="{'z-index': zIndex+1}"></div>
     <transition name="dialog">
       <div class="dialog-content" :style="{'z-index': zIndex + 2}">
         <div class="dialog-header">{{title}}</div>
         <div class="dialog-body">
+          {{content}}
           <slot></slot>
         </div>
         <div class="dialog-footer">
@@ -39,7 +40,12 @@ export default {
     show: {
       type: Boolean,
       default: false,
-      required: true
+      required: false
+    },
+    content: {
+      type: String,
+      default: '',
+      required: false
     }
   },
   data () {
@@ -91,7 +97,6 @@ export default {
         console.log(val, 'vla')
       } else {
         this.showSelf = val
-        console.log(this.showSlef)
       }
     }
   },

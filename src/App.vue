@@ -15,7 +15,8 @@
     >
      fdfsfsfdsf
     </Dialog>
-    <button @click="isShow = true" title="标题">show dialog</button>
+    <button @click="isShow = !isShow" title="标题">show dialog</button>
+    <button @click="showDialog">fdsfsffs</button>
     <router-view />
   </div>
 </template>
@@ -39,6 +40,21 @@ export default {
     },
     confirm (show) {
       this.isShow = show
+    },
+    showDialog () {
+      this.$dialog.show({
+        title: '标题',
+        content: '内容',
+        showCancel: true,
+        cancelText: '取消',
+        confirmText: '确认',
+        confirm: () => {
+          console.log('confirm')
+        },
+        cancel: () => {
+          console.log('cancel')
+        }
+      })
     }
   }
 }
