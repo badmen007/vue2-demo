@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <svg-icon icon-class="404" :size="40"></svg-icon>
     <nav>
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>

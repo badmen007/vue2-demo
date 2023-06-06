@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import Dialog from './components/dialog.js'
+import '@/icons' // icon
 
 Vue.use(Dialog)
 
