@@ -35,11 +35,9 @@ export default {
         },
         jsonp: 'cb'
       }).then(res => {
-        const value = this.inputValue
         res.g.forEach(item => {
-          if (item.q.includes(value)) {
-            item.q = item.q.replace(value, `<span style="color: red">${value}</span>`)
-          }
+          const reg = new RegExp(wd, 'g')
+          item.q = item.q.replace(reg, `<span style="color: red">${wd}</span>`)
         })
         this.result = res.g
       })
