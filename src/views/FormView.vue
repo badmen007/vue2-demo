@@ -1,24 +1,69 @@
 <template>
   <div>
-    <svg-icon icon-class="404" class-name="custom-class" size="40"></svg-icon>
-    <svg-icon icon-class="edit" class-name="edit-class" size="40"></svg-icon>
+    <el-input v-model="inputValue" placeholder="请输入内容"></el-input>
+    <el-button @click="getContent">点击获取内容</el-button>
+    <div>
+      <div v-for="(item, index) in result" :key="index">
+        <div v-html="item.q"></div>
+        <div>{{ item.type }}</div>
+        <div>{{ item.sa }}</div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'FormView'
+  name: 'FormView',
+  components: {},
+  data () {
+    return {
+      inputValue: '',
+      htmlString: '',
+      result: []
+    }
+  },
+  methods: {
+    getContent () {
+      const wd = this.inputValue
+      this.jsonp({
+        url: 'https://www.baidu.com/sugrec',
+        // url: 'http://localhost:3000/sugrec',
+        data: {
+          prod: 'pc',
+          wd
+        },
+        jsonp: 'cb'
+      }).then(res => {
+        const value = this.inputValue
+        res.g.forEach(item => {
+          if (item.q.includes(value)) {
+            item.q = item.q.replace(value, `<span style="color: red">${value}</span>`)
+          }
+        })
+        this.result = res.g
+      })
+    },
+    jsonp ({ url, jsonp, data }) {
+      return new Promise(resolve => {
+        // 1.准备一个全局的回调函数
+        const callbackName = `jQuery_${Date.now()}`
+        const script = document.createElement('script')
+        // 2.将回调函数挂载到window上
+        window[callbackName] = function (data) {
+          resolve(data)
+        }
+        // 看看有没有问号
+        let query = url.indexOf('?') === -1 ? '?' : '&'
+        for (const key in data) {
+          query += `${key}=${data[key]}&`
+        }
+        script.src = `${url}${query}${jsonp}=${callbackName}`
+        document.body.appendChild(script)
+      })
+    }
+  }
 }
 </script>
 
-<style scoped>
-.custom-class {
-  color: red;
-}
-.custom-class:hover {
-  color: skyblue;
-}
-.edit-class:hover {
-  color: green;
-}
-</style>
+<style scoped></style>
